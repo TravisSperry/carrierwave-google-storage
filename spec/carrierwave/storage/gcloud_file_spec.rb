@@ -4,7 +4,7 @@ describe CarrierWave::Storage::GcloudFile do
   let(:path)       { 'files/1/file.txt' }
   let(:file)       { double(:file, content_type: 'content/type', path: '/file/path') }
   let(:bucket)     { double(:bucket, object: file) }
-  let(:connection) { double(:connection, bucket: bucket) }
+  let(:connection) { double(:connection, bucket: bucket, file: file) }
 
   let(:uploader)   { FeatureUploader.new }
 
@@ -35,4 +35,11 @@ describe CarrierWave::Storage::GcloudFile do
     end
   end
 
+  describe '#delete' do
+    let(:file) { nil }
+
+    it 'is true if the file has already been deleted' do
+      expect(gcloud_file.delete).to be true
+    end
+  end
 end
